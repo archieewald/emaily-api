@@ -1,0 +1,20 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+  ], // Uses the linting rules from @typescript-eslint/eslint-plugin
+  "parserOptions": {
+    "ecmaVersion": "latest", // Allows the use of modern ECMAScript features
+    "sourceType": "module", // Allows for the use of imports
+  },
+  "env": {
+    "node": true, // Enable Node.js global variables
+  },
+  "rules": {
+    "no-console": 1, // Remember, this means error!
+  },
+}
