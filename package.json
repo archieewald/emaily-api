@@ -2,14 +2,14 @@
   "name": "emaily-api",
   "version": "1.0.0",
   "description": "My second API",
-  "main": "index.js",
+  "main": "index.ts",
   "engines": {
     "node": "21.6.2",
     "npm": "10.4.0"
   },
   "scripts": {
-    "dev": "node --env-file=.env index.js",
-    "start": "node index.js",
+    "build": "tsc",
+    "start": "node --env-file=.env ./dist/index.js",
     "lint": "eslint . --ext .ts --fix"
   },
   "author": "",
@@ -24,6 +24,7 @@
     "@typescript-eslint/eslint-plugin": "^7.0.1",
     "@typescript-eslint/parser": "^7.0.1",
     "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.2.5",
     "typescript": "^5.3.3"
   }
