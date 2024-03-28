@@ -1,35 +1,47 @@
 import express from 'express';
+import mongoose from 'mongoose';
+import session from 'express-session';
 import passport from 'passport';
-import GooglePassport from 'passport-google-oauth20';
 
-const GoogleStrategy = GooglePassport.Strategy;
+import './models/User';
+import './services/passport';
+import { authRoutes } from './routes/authRoutes';
 
-const app = express();
+const connectToDatabase = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_DB_URI as string);
+    console.log('Connected to MongoDB');
+  } catch (error) {
+    console.error('Failed to connect to MongoDB:', error);
+  }
+};
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.CLIENT_ID || '',
-      clientSecret: process.env.CLIENT_KEY || '',
-      callbackURL: process.env.CALLBACK_URL
-    },
-    (accessToken, refreshToken, profile, done) => {
-      console.log({ accessToken, refreshToken, profile });
-    }
-  )
-);
+const startServer = () => {
+  const app = express();
 
-app.get(
-  '/auth/google',
-  passport.authenticate('google', {
-    scope: ['profile', 'email']
-  })
-);
+  app.use(
+    session({
+      secret: process.env.COOKIES_KEY as string,
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        maxAge: 30 * 24 * 60 * 60 * 1000
+      }
+    })
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
 
-app.get('/auth/google/callback', passport.authenticate('google'));
+  authRoutes(app);
 
-const PORT = process.env.PORT;
+  const PORT = process.env.PORT;
 
-app.listen(PORT);
+  app.listen(PORT, () => {
+    console.log(`App is running at: http://localhost:${PORT}`);
+  });
+};
 
-console.log(`App is running at: http://localhost:${PORT}`);
+// Only start the server if the Mongoose connection is successful
+connectToDatabase().then(startServer);
+
+export { connectToDatabase }; // Export the connectToDatabase function for testing purposes
