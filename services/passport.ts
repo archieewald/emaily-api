@@ -7,7 +7,7 @@ const GoogleStrategy = GooglePassport.Strategy;
 const User = mongoose.model('users', userSchema);
 
 passport.serializeUser((user: Express.User, done) => {
-  done(null, user);
+  done(null, user.id);
 });
 
 passport.deserializeUser((id: string, done) => {

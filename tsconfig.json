@@ -2,7 +2,8 @@
   "extends": "@tsconfig/node-lts/tsconfig.json",
   "compilerOptions": {
     "rootDir": ".",
-    "outDir": "./dist"
+    "outDir": "./dist",
   },
+  "files": ["./index.ts", "./types/globals.d.ts"],
   "exclude": ["node_modules"]
 }
