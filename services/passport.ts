@@ -37,7 +37,8 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID || '',
       clientSecret: process.env.CLIENT_KEY || '',
-      callbackURL: process.env.CALLBACK_URL
+      callbackURL: process.env.CALLBACK_URL,
+      proxy: true
     },
     (_accessToken, _refreshToken, profile, done) => handleUserAuthentication(profile, done)
   )
